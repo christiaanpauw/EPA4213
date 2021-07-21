@@ -14,6 +14,7 @@
 #' @return  Numeric. Particulate emission factor (having units matching the units of k)
 #' @import units
 #' @import dplyr
+#' @import magrittr
 #' @export
 
 
@@ -25,7 +26,10 @@ pavedRoadDustEmissions <- function(massUnit = c("g", "lb")[1],
                                    precipitationPeriod = NULL,
                                    P = NULL,
                                    N = 365){
-  k <- dfLookup %>% filter(massUnit == {{massUnit}} & distanceUnit == {{distanceUnit}} & size == {{size}}) %>% dplyr::select(k) %>% as.data.frame() %>% `[`(1)
+  k <- makeVehicleDistanceLookup() %>% filter(massUnit == {{massUnit}} &
+                             distanceUnit == {{distanceUnit}} &
+                             size == {{size}}) %>% dplyr::select(k) %>%
+    as.data.frame() %>% `[`(1)
   k <- as.numeric(k)
 
   E <- k * (sL/2)^0.65 * (W/3)^1.5
@@ -53,11 +57,4 @@ pavedRoadDustEmissions <- function(massUnit = c("g", "lb")[1],
 
 }
 
-
-dfLookup <- expand.grid(massUnit = c("g","lb"), distanceUnit = c("km", "ml"), size = c("PM2.5", "PM10", "PM15", "PM30")) %>%
-  filter(!(distanceUnit == "km" & massUnit == "lb")) %>%
-  mutate(k = c(1.1, 1.8, 0.0040,
-               4.6, 7.3, 0.016,
-               5.5, 9.0, 0.020,
-               24, 38, 0.082))
 

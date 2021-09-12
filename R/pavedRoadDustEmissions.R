@@ -1,4 +1,4 @@
-#' @name pavedRoadDustEmissionFactor
+#' @title pavedRoadDustEmissionFactor
 #' @description Function to calculate dust emissions from paved roads
 #' @references https://www3.epa.gov/ttn/chief/old/ap42/ch13/s021/final/c13s02-1_2002.pdf
 #' @param massUnit Character. One of c("g", "lb"). Default: "g"

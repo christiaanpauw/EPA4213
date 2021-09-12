@@ -1,4 +1,4 @@
-#' @name pavedRoadDustEmissions
+#' @name pavedRoadDustEmissionFactor
 #' @description Function to calculate dust emissions from paved roads
 #' @references https://www3.epa.gov/ttn/chief/old/ap42/ch13/s021/final/c13s02-1_2002.pdf
 #' @param massUnit Character. One of c("g", "lb"). Default: "g"
@@ -18,7 +18,7 @@
 #' @export
 
 
-pavedRoadDustEmissions <- function(massUnit = c("g", "lb")[1],
+pavedRoadDustEmissionFactor <- function(massUnit = c("g", "lb")[1],
                                    distanceUnit = c("km", "ml")[1],
                                    size = c("PM2.5", "PM10", "PM15", "PM30")[2],
                                    sL = NULL,
@@ -32,7 +32,9 @@ pavedRoadDustEmissions <- function(massUnit = c("g", "lb")[1],
     as.data.frame() %>% `[`(1)
   k <- as.numeric(k)
 
-  E <- k * (sL/2)^0.65 * (W/3)^1.5
+  units(W) <- make_units(t)
+
+  E <- k * (sL/2)^0.65 * (as.numeric(W)/3)^1.5
   u <- sprintf("%s/%s", massUnit, distanceUnit)
   units(E) <- as_units(u)
 

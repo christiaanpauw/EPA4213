@@ -4,11 +4,11 @@
 #' @param massUnit Character. One of c("g", "lb"). Default: "g"
 #' @param distanceUnit Character. One of c("km", "ml")
 #' @param size Character. One of c("PM2.5", "PM10", "PM15", "PM30"). Default:  "PM10"
-#' @param s Numeric. surface material silt content (%)
+#' @param s Numeric. surface material silt content (percent)
 #' @param W Numeric. mean vehicle weight (tons)
-#' @param M Numeric. surface material moisture content (%)
+#' @param M Numeric. surface material moisture content (precent)
 #' @param S Numeric.mean vehicle speed
-#' @param M Numeric. Surface material moisture content (%)
+#' @param M Numeric. Surface material moisture content (percent)
 #' @param type Character. What type of unpaved road is it? Choose between  "unpaved-industrial" and "unpaved-public"
 #' @return Numeric. E. size-specific emission factor (lb/VMT)
 #' @import units
@@ -60,9 +60,7 @@ unpavedRoadDustEmissionFactor <- function(size = c("PM2.5", "PM10", "PM30")[2],
     a <- pull(refdf, a)
     c <- pull(refdf, c)
     d <- pull(refdf, d)
-    s <- drop_units(s)
     S <- drop_units(S)
-    M <- drop_units(M)
     bo  <- k * ( (s/12)^a ) * ( (S/30) ^d)
     onder <- (M/0.5)^c
 

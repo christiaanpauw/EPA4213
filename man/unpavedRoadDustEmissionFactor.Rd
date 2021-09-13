@@ -5,38 +5,37 @@
 \title{pavedRoadDustEmissionFactor}
 \usage{
 unpavedRoadDustEmissionFactor(
-  massUnit = c("g", "lb")[1],
-  distanceUnit = c("km", "ml")[1],
-  size = c("PM2.5", "PM10", "PM15", "PM30")[2],
-  sL = NULL,
+  size = c("PM2.5", "PM10", "PM30")[2],
+  s = NULL,
   W = NULL,
-  precipitationPeriod = NULL,
-  P = NULL,
-  N = 365
+  S = NULL,
+  M = NULL,
+  type = c("unpaved-industrial", "unpaved-public")[2],
+  outunit = c("g/VKT", "lb/VMT")[1]
 )
 }
 \arguments{
-\item{massUnit}{Character. One of c("g", "lb"). Default: "g"}
-
-\item{distanceUnit}{Character. One of c("km", "ml")}
-
 \item{size}{Character. One of c("PM2.5", "PM10", "PM15", "PM30"). Default:  "PM10"}
+
+\item{s}{Numeric. surface material silt content (percent)}
 
 \item{W}{Numeric. mean vehicle weight (tons)}
 
-\item{E}{Numeric. size-specific emission factor (lb/VMT) s= surface material silt content (%)}
+\item{S}{Numeric.mean vehicle speed}
 
-\item{M}{Numeric. surface material moisture content (%)}
+\item{M}{Numeric. Surface material moisture content (percent)}
 
-\item{S}{Numeric.mean vehicle speed (mph)}
+\item{type}{Character. What type of unpaved road is it? Choose between  "unpaved-industrial" and "unpaved-public"}
 
-\item{C}{Numeric. emission factor for 1980s vehicle fleet exhaust, brake wear and tire wear.}
+\item{massUnit}{Character. One of c("g", "lb"). Default: "g"}
+
+\item{distanceUnit}{Character. One of c("km", "ml")}
 }
 \value{
-Numeric. Particulate emission factor (having units matching the units of k)
+Numeric. E. size-specific emission factor (lb/VMT)
 }
 \description{
-Function to calculate dust emissions from paved roads
+Function to calculate dust emissions from unpaved roads
 }
 \references{
 https://www3.epa.gov/ttn/chief/old/ap42/ch13/s021/final/c13s02-1_2002.pdf

@@ -4,11 +4,7 @@
 \alias{makeFleetCLookup}
 \title{makeFleetCLookup}
 \usage{
-makeFleetCLookup(result = c("mile", "km")[2])
-}
-\arguments{
-\item{result}{Character. Units to get values of Emission Factor for Exhaust, Brake Wear and Tire Wearb
-Either "mile" or "km"}
+makeFleetCLookup()
 }
 \description{
 Create a lookup table for the values of C in EPA 42 Ch 13 Section 13.2.2 Table 13.2.2-4

@@ -4,10 +4,16 @@
 \alias{makeVehicleDistanceLookup}
 \title{makeVehicleDistanceLookup}
 \usage{
-makeVehicleDistanceLookup()
+makeVehicleDistanceLookup(
+  type = c("paved", "unpaved-industrial", "unpaved-public")[1]
+)
+}
+\arguments{
+\item{type}{Character. What type of road is it c("paved", "unpaved-industrial", "unpaved-public")}
 }
 \description{
-Create a lookup table for the values of K in EPA 42 Ch 13 Section 13.2.1.3
+Create a lookup table for the values of K in EPA 42 Ch 13 Section 13.2.1.3 and
+Contants in EPA 42 Ch 13 Section 13.2.2 Table 13.2.2-2
 }
 \references{
 https://www3.epa.gov/ttn/chief/old/ap42/ch13/s021/final/c13s02-1_2002.pdf

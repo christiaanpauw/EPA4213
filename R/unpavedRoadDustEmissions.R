@@ -71,15 +71,7 @@ unpavedRoadDustEmissionFactor <- function(size = c("PM2.5", "PM10", "PM30")[2],
     E
   }
 
-
-
-
-
-
-
   E
-
-
 
 }
 

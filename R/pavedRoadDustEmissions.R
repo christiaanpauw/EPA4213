@@ -39,19 +39,22 @@ pavedRoadDustEmissionFactor <- function(massUnit = c("g", "lb")[1],
   units(E) <- as_units(u)
 
   if (!is.null(precipitationPeriod)){
+    #message("precipitationPeriod is nie null nie dis ", precipitationPeriod)
     if (is.null(N) | is.null(P)) stop("P and N cannot be NULL")
-    if (precipitationPeriod == "day") {
+    if (precipitationPeriod %in% c("day", "days", "Day","Days")) {
+      #message("Binne-in dag")
       E <- E * (1-(P/(4*N)))
       een = 1
-      u2 <- switch(as.character(N), "365" = "year", "91" = "season", "30" = "month")
-      units(een) <- as_units(u2)
+      #u2 <- switch(as.character(N), "365" = "year", "91" = "season", "30" = "month")
+      #units(een) <- as_units(u2)
       E <- E / een
     }
-    if (precipitationPeriod == "hour") {
+    if (precipitationPeriod %in% c("hour", "hours", "Hour", "Hours")) {
+      message("Binne-in uur")
       E <- E * (1-( (1.2*P)/N ) )
       een = 1
-      u2 <- switch(as.character(N), "8760" = "year", "720" = "month", "24" = "day")
-      units(een) <- as_units(u2)
+      #u2 <- switch(as.character(N), "8760" = "year", "720" = "month", "24" = "day")
+      #units(een) <- as_units(u2)
       E <- E / een
     }
   }

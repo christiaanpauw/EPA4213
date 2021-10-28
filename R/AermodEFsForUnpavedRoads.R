@@ -1,11 +1,12 @@
-#'@name EFpublicRoadUnpaved
-#'@description Calculates size-specific particulate emissions (in grams) from an
+#' @title EFpublicRoadUnpaved
+#' @description Calculates size-specific particulate emissions (in grams) from an
 #'  unpaved public road, per vehicle per kilometer travelled.
-#'@param s Numeric. Surface silt content (%).
-#'@param S Numeric. Mean vehicle speed (km/h).
-#'@param M Numeric. Surface moisture content (%).
-#'@param pm Character. Maximum particulate matter diameter.
-#'@return Numeric. Emission factor in gram per kilometer.
+#' @param s Numeric. Surface silt content (%).
+#' @param S Numeric. Mean vehicle speed (km/h).
+#' @param M Numeric. Surface moisture content (%).
+#' @param pm Character. Maximum particulate matter diameter.
+#' @return Numeric. Emission factor in gram per kilometer.
+#' @export
 #'
 EFpublicRoadUnpaved <- function(s = NULL, S = NULL, M = NULL,
                                 pm = c("2.5", "10", "30")) {
@@ -51,24 +52,37 @@ EFpublicRoadUnpaved <- function(s = NULL, S = NULL, M = NULL,
   return(x)
 }
 
-#'@name calcEFforAermod
-#'@description Uses function 'EFpublicRoadUnpaved' to calculate an emission
+#' @title calcEFforAermod
+#' @description Uses function 'EFpublicRoadUnpaved' to calculate an emission
 #'  factor suitable for input to Aermod.
-#'@param EFx Numeric. Output from EFpublicRoadUnpaved().
-#'@param nVph Numeric. Average number of vehicles per hour.
-#'@param roadLength Numeric. Length of road in meter.
-#'@param roadWidth Numeric. Width of road in meter.
-#'
-calcEFforAermod <- function(EFx, nVph, roadLength, roadWidth) {
+#' @param EFx Numeric. Output from EFpublicRoadUnpaved() or unpavedRoadDustEmissionFactor()
+#' @param nV Numeric. Average number of vehicles per time unit t
+#' @param t Units of time
+#' @param roadLength Numeric with distance unit. Length of road
+#' @param roadWidth Numeric with distance unit. Width of road
+#' @export
+
+calcEFforAermod <- function(EFx, nV, t = units::set_units(1, h), roadLength, roadWidth) {
+
+  if (!inherits(t, "units")) stop("t must have a unit of time")
+  if (!inherits(roadLength, "units")) stop("roadLength must have a unit of distance")
+  if (!inherits(roadWidth, "units")) stop("roadWidth must have a unit of distance")
+  if (!inherits(EFx, "units")) stop("EFx must have a unit of mass per distance")
+
+  roadLength <- units::set_units(roadLength, km)
+  roadWidth <- units::set_units(roadWidth, m)
+ # t <- units::set_units(t, h)
+
+  #EFx <- units::set_units(EFx, g/km)
 
   # calculate grams per hour for the defined piece of road
-  x <- EFx * nVph * (roadLength/1000)
+  x <- EFx * nV / t * roadLength
 
   # convert to grams per second (g/s)
-  x <- x/(60*60)
+  x <- units::set_units(x, g/s)
 
   # convert to g/(s*(m^2)) (Aermod peculiarity)
-  x <- x / (roadLength * roadWidth)
+  x <- x / ( units::set_units(roadLength, m) * roadWidth)
 
   return(x)
 }
@@ -79,11 +93,19 @@ calcEFforAermod <- function(EFx, nVph, roadLength, roadWidth) {
 # has a silt content of 4.1 %, a surface moisture content of 1.8 %, and with a
 # traffic load of 50 vehicles per hour travelling at 47 km/h on average.
 EFx <- EFpublicRoadUnpaved(s = 4.1, S = 47, M = 1.8, pm = "2.5")
-xAermod <- calcEFforAermod(EFx, nVph = 50, roadLength = 210, roadWidth = 2)
+xAermod <- calcEFforAermod(units::set_units(EFx, g/km),
+                           nV = 50,
+                           t = units::set_units(1, h),
+                           roadLength = units::set_units(210, m),
+                           roadWidth =  units::set_units(2, m))
 
 # (1) Calculate the daytime PM10 emission factor for a 100 m stretch of road that
 # is 2 m wide, has a silt content of 6.0 %, a surface moisture content of 0.7 %,
 # and with a daytime (16 hours) traffic load of 110 vehicles in total, travelling
 # at 63 km/h on average.
 EFx <- EFpublicRoadUnpaved(s = 6.0, S = 63, M = 0.7, pm = "10")
-xAermod <- calcEFforAermod(EFx, nVph = 110/16, roadLength = 100, roadWidth = 2)
+xAermod <- calcEFforAermod(units::set_units(EFx, g/km),
+                           nV = 110,
+                           t = units::set_units(16, h),
+                           roadLength = units::set_units(100, m),
+                           roadWidth = units::set_units(2, m))

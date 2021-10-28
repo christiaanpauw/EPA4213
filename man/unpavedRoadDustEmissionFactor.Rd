@@ -11,7 +11,9 @@ unpavedRoadDustEmissionFactor(
   S = NULL,
   M = NULL,
   type = c("unpaved-industrial", "unpaved-public")[2],
-  outunit = c("g/VKT", "lb/VMT")[1]
+  outunit = c("g/VKT", "lb/VMT")[1],
+  verbose = FALSE,
+  unsafespeed = FALSE
 )
 }
 \arguments{
@@ -27,12 +29,18 @@ unpavedRoadDustEmissionFactor(
 
 \item{type}{Character. What type of unpaved road is it? Choose between  "unpaved-industrial" and "unpaved-public"}
 
+\item{outunit}{Character. Either "g/VKT" or "lb/VMT"}
+
+\item{verbose}{Logical. Messages or not}
+
+\item{unsafespeed}{Logical. Ignore speed limits of}
+
 \item{massUnit}{Character. One of c("g", "lb"). Default: "g"}
 
 \item{distanceUnit}{Character. One of c("km", "ml")}
 }
 \value{
-Numeric. E. size-specific emission factor (lb/VMT)
+Numeric. E. size-specific emission factor in units of lb/VMT or g/VKT depending on value of outunit argument
 }
 \description{
 Function to calculate dust emissions from unpaved roads

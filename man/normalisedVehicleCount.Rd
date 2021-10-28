@@ -4,7 +4,7 @@
 \alias{normalisedVehicleCount}
 \title{normalisedVehicleCount}
 \usage{
-normalisedVehicleCount(n, l, w, t)
+normalisedVehicleCount(n, l, w, t, verbose = FALSE)
 }
 \arguments{
 \item{n}{Integer. Count of vehicles per unit t}
@@ -13,7 +13,9 @@ normalisedVehicleCount(n, l, w, t)
 
 \item{w}{Numeric or units. Width in meters OR units with distance unit}
 
-\item{t}{Numeric or units.}
+\item{t}{Numeric or units. Assumed per hour}
+
+\item{verbose}{Logical. Messages or not}
 }
 \value{
 Vehicles per m2 per second [1/m^2/s]

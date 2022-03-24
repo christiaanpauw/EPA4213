@@ -32,6 +32,8 @@ pavedRoadDustEmissionFactor <- function(massUnit = c("g", "lb")[1],
     as.data.frame() %>% `[`(1)
   k <- as.numeric(k)
 
+  if (!class(W) %in% "units") stop("W must be in a unit of mass")
+
   units(W) <- make_units(t)
 
   E <- k * (sL/2)^0.65 * (as.numeric(W)/3)^1.5
@@ -45,16 +47,16 @@ pavedRoadDustEmissionFactor <- function(massUnit = c("g", "lb")[1],
       #message("Binne-in dag")
       E <- E * (1-(P/(4*N)))
       een = 1
-      #u2 <- switch(as.character(N), "365" = "year", "91" = "season", "30" = "month")
-      #units(een) <- as_units(u2)
+      u2 <- switch(as.character(N), "365" = "year", "91" = "season", "30" = "month")
+      units(een) <- as_units(u2)
       E <- E / een
     }
     if (precipitationPeriod %in% c("hour", "hours", "Hour", "Hours")) {
       message("Binne-in uur")
       E <- E * (1-( (1.2*P)/N ) )
       een = 1
-      #u2 <- switch(as.character(N), "8760" = "year", "720" = "month", "24" = "day")
-      #units(een) <- as_units(u2)
+      u2 <- switch(as.character(N), "8760" = "year", "720" = "month", "24" = "day")
+      units(een) <- as_units(u2)
       E <- E / een
     }
   }

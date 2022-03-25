@@ -8,7 +8,7 @@ Description: Calculate emission factor for road dust from paved roads following 
 License: GPL
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
     dplyr,
     magrittr,

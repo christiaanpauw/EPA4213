@@ -15,10 +15,10 @@ makeVehicleDistanceLookup <- function(type = c("paved", "unpaved-industrial", "u
                           distanceUnit = c("km", "ml"),
                           size = c("PM2.5", "PM10", "PM15", "PM30")) %>%
     filter(!(distanceUnit == "km" & massUnit == "lb")) %>%
-    mutate(k = c(1.1, 1.8, 0.0040,
-                 4.6, 7.3, 0.016,
-                 5.5, 9.0, 0.020,
-                 24, 38, 0.082))
+    mutate(k = c(0.15, 0.25, 0.00054,
+                 0.62, 1, 0.0022,
+                 0.77, 1.23, 0.0027,
+                 3.23, 5.24, 0.011))
     )
   if (type == "unpaved-industrial")
     return(

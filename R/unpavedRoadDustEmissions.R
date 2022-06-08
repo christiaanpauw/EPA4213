@@ -40,8 +40,8 @@ unpavedRoadDustEmissionFactor <- function(size = c("PM2.5", "PM10", "PM30")[2],
   }
 
   if (!inherits(S, "units")) stop("S must have a unit of speed")
-  if (s < 0 | s > 100) stop("s must be a percentage")
-  if (M < 0 | M > 100) stop("M must be a percentage")
+  if (any(s < 0 | s > 100)) stop("s must be a percentage")
+  if (any(M < 0 | M > 100)) stop("M must be a percentage")
 
   refdf <- makeVehicleDistanceLookup(type =type) %>%
     filter(massUnit == "lb" & distanceUnit == "ml" & size == {{size}})
@@ -50,7 +50,7 @@ unpavedRoadDustEmissionFactor <- function(size = c("PM2.5", "PM10", "PM30")[2],
     k <- pull(refdf, k)
     a <- pull(refdf, a)
     b <- pull(refdf, b)
-    s <- units::drop_units(s)
+    # s <- units::drop_units(s)
     W <- units::drop_units(W)
 
     E <-  k * ( (s/12)^a ) * ((W/3)^b)
@@ -64,11 +64,11 @@ unpavedRoadDustEmissionFactor <- function(size = c("PM2.5", "PM10", "PM30")[2],
     C <- makeFleetCLookup() %>% filter(size == {{size}}) %>% pull(C)
     if (verbose) message("C is ", C)
 
-    if (s < 1.8 | s > 35) {
+    if (any(s < 1.8 | s > 35)) {
       stop("Value for 's' must be in the range of [1.8,35].")
     }
 
-    if (S < units::set_units(10, miles/h) | S > units::set_units(55, miles/h)) {
+    if (any(S < units::set_units(10, miles/h) | S > units::set_units(55, miles/h))) {
       if (!unsafespeed){stop("Value for 'S' must be in the range of [10,55] miles per hour.")}
 
     }
@@ -82,14 +82,13 @@ unpavedRoadDustEmissionFactor <- function(size = c("PM2.5", "PM10", "PM30")[2],
     if (verbose) message("k: ", k, "\nc: ", c, "\nd: ", d , "\nS: ", round(S, 3),  "\ns: ", s,  "\nM: ", M)
 
     E <- (k*((s/12)^a)*((S/30)^d))/((M/0.5)^c) -C
+  }
 
-    if (verbose) message("E is ", round(E, 6), " lb/VMT")
-
-    if (outunit == "g/VKT") {
+  if (verbose) message("E is ", round(E, 6), " lb/VMT")
+  if (outunit == "g/VKT") {
       E <- units::set_units(E *  281.9, g/km)
-    } else {
+  } else {
       E <- units::set_units(E , lb/mile)
-      }
   }
 
   E

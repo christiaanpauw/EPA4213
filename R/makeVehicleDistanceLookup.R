@@ -15,10 +15,10 @@ makeVehicleDistanceLookup <- function(type = c("paved", "unpaved-industrial", "u
                           distanceUnit = c("km", "ml"),
                           size = c("PM2.5", "PM10", "PM15", "PM30")) %>%
     filter(!(distanceUnit == "km" & massUnit == "lb")) %>%
-    mutate(k = c(1.1, 1.8, 0.0040,
-                 4.6, 7.3, 0.016,
-                 5.5, 9.0, 0.020,
-                 24, 38, 0.082))
+    mutate(k = c(0.15, 0.25, 0.00054,
+                 0.62, 1, 0.0022,
+                 0.77, 1.23, 0.0027,
+                 3.23, 5.24, 0.011))
     )
   if (type == "unpaved-industrial")
     return(
@@ -30,9 +30,9 @@ makeVehicleDistanceLookup <- function(type = c("paved", "unpaved-industrial", "u
         arrange(massUnit) %>%
         mutate(k = c(0.15 * 281.9, 0.15 * 281.9, 4.9 * 281.9,
                      0.15, 0.15, 4.9),
-               a = c(0.9 * 281.9, 0.9 * 281.9, 0.7 * 281.9,
+               a = c(0.9, 0.9, 0.7,
                      0.9, 0.9, 0.7),
-               b = c(0.45 * 281.9, 0.45 * 281.9, 0.45 * 281.9,
+               b = c(0.45, 0.45, 0.45,
                      0.45, 0.45, 0.45))
     )
 
@@ -46,11 +46,11 @@ makeVehicleDistanceLookup <- function(type = c("paved", "unpaved-industrial", "u
         arrange(massUnit) %>%
         mutate(k = c(0.18 * 281.9, 1.8 * 281.9, 6 * 281.9,
                      0.18, 1.8, 6),
-               a = c(1 * 281.9, 1 * 281.9, 1 * 281.9,
+               a = c(1, 1, 1,
                      1, 1, 1),
-               c = c(0.2 * 281.9, 0.2 * 281.9, 0.3 * 281.9,
+               c = c(0.2, 0.2, 0.3,
                      0.2, 0.2, 0.3),
-               d = c(0.5 * 281.9, 0.5 * 281.9, 0.3 * 281.9,
+               d = c(0.5, 0.5, 0.3,
                      0.5, 0.5, 0.3)
                )
       )

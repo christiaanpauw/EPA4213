@@ -25,7 +25,9 @@ Uses function 'EFpublicRoadUnpaved' to calculate an emission
  (1) Calculate the PM2.5 emission factor for a 210 m stretch of road that is 2 m wide,
  has a silt content of 4.1 \%, a surface moisture content of 1.8 \%, and with a
  traffic load of 50 vehicles per hour travelling at 47 km/h on average.
+
  EFx <- EFpublicRoadUnpaved(s = 4.1, S = 47, M = 1.8, pm = "2.5")
+
  xAermod <- calcEFforAermod(units::set_units(EFx, g/km),
                         nV = 50, t = units::set_units(1, h),
                         roadLength = units::set_units(210, m),
@@ -34,7 +36,9 @@ Uses function 'EFpublicRoadUnpaved' to calculate an emission
 is 2 m wide, has a silt content of 6.0 \%, a surface moisture content of 0.7 \%,
 and with a daytime (16 hours) traffic load of 110 vehicles in total, travelling
 at 63 km/h on average.
+
 EFx <- EFpublicRoadUnpaved(s = 6.0, S = 63, M = 0.7, pm = "10")
+
 xAermod <- calcEFforAermod(units::set_units(EFx, g/km),
                        nV = 110, t = units::set_units(16, h),
                        roadLength = units::set_units(100, m),
